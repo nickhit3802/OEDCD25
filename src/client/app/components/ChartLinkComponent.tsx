@@ -63,7 +63,6 @@ export default function ChartLinkComponent() {
 										}}
 									/>
 								</div>
-								
 							</div>
 						</Button>
 						<Button outline onClick={() => setLinkTextVisible(visible => !visible)}>
@@ -76,7 +75,7 @@ export default function ChartLinkComponent() {
 					linkTextVisible &&
 					<div style={wellStyle}>
 						{/* THIS IS WHERE THE CHART LINK IS DISPLAYED -> */}
-						{'hel;lo world'}
+						{linkText}
 						{/* PAST WEEK BUTTON */}
 						<div ref={recencyLinkRef} data-for={'home'} data-tip={'help.home.toggle.chart.link.past.week.'}>
 							<text>{translate('help.home.toggle.chart.link.past.week.title')}</text>
@@ -85,15 +84,14 @@ export default function ChartLinkComponent() {
 									e.stopPropagation();
 									dispatch(setChartLinkOptionsVisibility(!linkHideOptions));
 								}}
-										onMouseOver={() => {
-											recencyLinkRef.current && ReactTooltip.show(recencyLinkRef.current);
-										}}
-										onMouseLeave={() => {
-											recencyLinkRef.current && ReactTooltip.hide(recencyLinkRef.current);
-										}}
-									/>
+								onMouseOver={() => {
+									recencyLinkRef.current && ReactTooltip.show(recencyLinkRef.current);
+								}}
+								onMouseLeave={() => {
+									recencyLinkRef.current && ReactTooltip.hide(recencyLinkRef.current);
+								}}
+							/>
 						</div>
-
 					</div>
 				}
 			</div >
