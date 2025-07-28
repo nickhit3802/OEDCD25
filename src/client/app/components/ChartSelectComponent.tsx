@@ -49,12 +49,7 @@ export default function ChartSelectComponent() {
 				<DropdownMenu>
 					{
 						// Make items for dropdown from enum
-						Object.values(ChartTypes)
-							// filter out current chart
-							.filter(chartType => chartType !== currentChartToRender)
-							.sort()
-							// map to components
-							.map(chartType =>
+						Object.values(ChartTypes).filter(chartType => chartType !== currentChartToRender).sort().map(chartType =>
 								<DropdownItem
 									key={chartType}
 									onClick={() => {

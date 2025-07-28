@@ -27,6 +27,8 @@ export default function ChartLinkComponent() {
 	const selectedMeters = useAppSelector(selectSelectedMeters);
 	const selectedGroups = useAppSelector(selectSelectedGroups);
 	const ref = React.useRef<HTMLDivElement>(null);
+	const recencyLinkRef = React.useRef<HTMLDivElement>(null);
+	const pastWeekTitleRef = React.useRef<HTMLDivElement>(null);
 	const handleButtonClick = () => {
 		// First attempt to write directly to user's clipboard.
 		navigator.clipboard.writeText(linkText)
@@ -61,6 +63,7 @@ export default function ChartLinkComponent() {
 										}}
 									/>
 								</div>
+								
 							</div>
 						</Button>
 						<Button outline onClick={() => setLinkTextVisible(visible => !visible)}>
@@ -72,7 +75,25 @@ export default function ChartLinkComponent() {
 				{
 					linkTextVisible &&
 					<div style={wellStyle}>
-						{linkText}
+						{/* THIS IS WHERE THE CHART LINK IS DISPLAYED -> */}
+						{'hel;lo world'}
+						{/* PAST WEEK BUTTON */}
+						<div ref={recencyLinkRef} data-for={'home'} data-tip={'help.home.toggle.chart.link.past.week.'}>
+							<text>{translate('help.home.toggle.chart.link.past.week.title')}</text>
+							<Input type='checkbox' defaultChecked={linkHideOptions}
+								onClickCapture={e => {
+									e.stopPropagation();
+									dispatch(setChartLinkOptionsVisibility(!linkHideOptions));
+								}}
+										onMouseOver={() => {
+											recencyLinkRef.current && ReactTooltip.show(recencyLinkRef.current);
+										}}
+										onMouseLeave={() => {
+											recencyLinkRef.current && ReactTooltip.hide(recencyLinkRef.current);
+										}}
+									/>
+						</div>
+
 					</div>
 				}
 			</div >

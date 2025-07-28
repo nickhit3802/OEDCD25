@@ -46,6 +46,7 @@ export default function MoreOptionsComponent() {
 							{translate('more.options')}
 						</ModalHeader>
 						<ModalBody>
+							{/* HERE IS WHERE THE STUFF HAPPENS (MESS WITH THIS) */}
 							{/* More UI options for line graphic */}
 							{chartToRender == ChartTypes.line && <GraphicRateMenuComponent />}
 							{chartToRender == ChartTypes.line && !isBoundedAnywhere && <DateRangeComponent />}
@@ -53,6 +54,8 @@ export default function MoreOptionsComponent() {
 							{chartToRender == ChartTypes.line && <ErrorBarComponent />}
 							{chartToRender == ChartTypes.line && <ExportComponent />}
 							{chartToRender == ChartTypes.line && <ChartLinkComponent />}
+							{/* SO BASICALLY FOR EACH GRAPH TYPE, THERE ARE DIFFERENT COMPONENTS, WE ARE FOCUSING ON
+							CHARTLINKCOMPONENT FOR EACH ONE, SO WE NEED TO ADD A NEW COMPONENT (MAYBE 'GET MOST RECENT CHARTLINK') */}
 
 							{/* More UI options for bar graphic */}
 							{chartToRender == ChartTypes.bar && !isBoundedAnywhere && <DateRangeComponent />}
@@ -86,6 +89,7 @@ export default function MoreOptionsComponent() {
 							{chartToRender === ChartTypes.compareLine && <ErrorBarComponent />}
 							{chartToRender === ChartTypes.compareLine && <ChartLinkComponent />}
 						</ModalBody>
+							
 						<ModalFooter></ModalFooter>
 					</Modal>
 				</div>

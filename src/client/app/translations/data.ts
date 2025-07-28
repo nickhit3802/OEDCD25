@@ -286,6 +286,8 @@ const LocaleTranslationData = {
 		"help.home.select.rates": "Rates determine the time normalization for a line graph. Please visit {link} for further details and information",
 		"help.home.select.units": "Units determine the values displayed in a graphic. Please visit {link} for further details and information",
 		"help.home.toggle.chart.link": "With the \"Toggle chart link\" button a box appears that gives a URL that will recreate the current graphic. The link will recreate the graphic in the future, esp. for others to see. The person using this URL will be in a fully functional OED so they can make changes after the original graphic is displayed. You can help discourage changes by choosing the option to hide the option choice so they are not visible when using the URL. Please visit {link} for further details and information.",
+		"help.home.toggle.chart.link.past.week.": "This makes the link only show the past week of data. This is useful for sharing a link to a graph that will not change over time and always display the most recent data.",
+		"help.home.toggle.chart.link.past.week.title": "Show Past Week : ",
 		"help.meters.meterview": "This page shows information on meters. Please visit {link} for further details and information.",
 		"here": "here",
 		"hide": "Hide",
