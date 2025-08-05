@@ -22,6 +22,7 @@ export interface AppState {
 	initComplete: boolean;
 	optionsVisibility: boolean;
 	chartLinkHideOptions: boolean;
+	keepChartCurrent: boolean; //THIS INSTATIATES KEEP CHART CURRENT
 	selectedLanguage: LanguageTypes;
 	languageManuallySet: boolean;
 	refreshingReadings: boolean;
@@ -32,6 +33,7 @@ const defaultState: AppState = {
 	optionsVisibility: true,
 	selectedLanguage: LanguageTypes.en,
 	chartLinkHideOptions: false,
+	keepChartCurrent: false, //SETS THE VALUE OF KEEP CHART CURRENT TO FALSE
 	languageManuallySet: false,
 	refreshingReadings: false
 };
@@ -55,10 +57,14 @@ export const appStateSlice = createThunkSlice({
 			state.selectedLanguage = action.payload;
 			moment.locale(action.payload);
 			state.languageManuallySet = true;
+			
 		}),
 		setChartLinkOptionsVisibility: create.reducer<boolean>((state, action) => {
 			state.chartLinkHideOptions = action.payload;
-
+		}),
+		//REDUCERS IS FOR SETTING (CHANGING) THE STATE
+		setKeepChartCurrent: create.reducer<boolean>((state,action) => { //THIS IS THE SETTER FOR KEEP CHART CURRENT
+			state.keepChartCurrent = action.payload;
 		}),
 		setRefresingReadings: create.reducer<boolean>((state, action) => {
 			state.refreshingReadings = action.payload;
@@ -132,6 +138,8 @@ export const appStateSlice = createThunkSlice({
 		selectOptionsVisibility: state => state.optionsVisibility,
 		selectSelectedLanguage: state => state.selectedLanguage,
 		selectChartLinkHideOptions: state => state.chartLinkHideOptions,
+		selectKeepChartCurrent: state => state.keepChartCurrent, //THIS GETS THE KEEP CHART CURRENT STATE
+		//SELECT IS FOR GETTING THE STATE
 		selectRefreshingReadings: state => state.refreshingReadings
 	}
 });
@@ -143,6 +151,7 @@ export const {
 	setOptionsVisibility,
 	updateSelectedLanguage,
 	setChartLinkOptionsVisibility,
+	setKeepChartCurrent, //EXPORTS THE FUNCTION
 	setRefresingReadings
 } = appStateSlice.actions;
 
@@ -151,5 +160,6 @@ export const {
 	selectOptionsVisibility,
 	selectSelectedLanguage,
 	selectChartLinkHideOptions,
+	selectKeepChartCurrent, //EXPORTS THE SELECTOR (GETS THE VALUE)
 	selectRefreshingReadings
 } = appStateSlice.selectors;

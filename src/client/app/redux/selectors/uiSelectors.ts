@@ -5,7 +5,9 @@ import { LanguageTypes } from 'types/redux/i18n';
 import { selectGroupDataById } from '../../redux/api/groupsApi';
 import { selectMeterDataById } from '../../redux/api/metersApi';
 import { selectUnitDataById } from '../../redux/api/unitsApi';
-import { selectChartLinkHideOptions, selectSelectedLanguage } from '../../redux/slices/appStateSlice';
+import { selectChartLinkHideOptions, selectSelectedLanguage,
+	selectKeepChartCurrent
+ } from '../../redux/slices/appStateSlice';
 import { DataType } from '../../types/Datasources';
 import { GroupedOption, SelectOption } from '../../types/items';
 import { ChartTypes, ShiftAmount } from '../../types/redux/graph';
@@ -27,6 +29,7 @@ import { selectVisibleMetersAndGroups, selectVisibleUnitOrSuffixState } from './
 import { selectDefaultGraphicUnitFromEntity, selectMeterOrGroupFromEntity, selectNameFromEntity } from './entitySelectors';
 import { createAppSelector } from './selectors';
 import { selectCik } from '../api/conversionsApi';
+import { link } from 'fs';
 
 export const selectCurrentUnitCompatibility = createAppSelector(
 	[
@@ -453,9 +456,10 @@ export const selectChartLink = createAppSelector(
 		selectGraphState,
 		selectChartLinkHideOptions,
 		selectSliderRangeInterval,
-		state => state.maps.selectedMap
+		state => state.maps.selectedMap,
+		selectKeepChartCurrent,
 	],
-	(current, chartLinkHideOptions, rangeSliderInterval, selectedMap) => {
+	(current, chartLinkHideOptions, rangeSliderInterval, selectedMap,keepChartCurrent) => {
 		// Determine the beginning of the URL to add arguments to.
 		// This is the current URL.
 		const winLocHref = window.location.href;
@@ -514,7 +518,9 @@ export const selectChartLink = createAppSelector(
 		if (chartLinkHideOptions) {
 			linkText += '&optionsVisibility=false';
 		}
+		if(keepChartCurrent){
+			linkText+= '&keepChartCurrent=true'
+		}
 		return linkText;
 	}
 );
-
