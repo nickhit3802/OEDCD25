@@ -36,7 +36,7 @@ import {
 } from '../../utils/determineCompatibleUnits';
 import { AreaUnitType, getAreaUnitConversion } from '../../utils/getAreaUnitConversion';
 import { getGPSString, nullToEmptyString } from '../../utils/input';
-import { showErrorNotification } from '../../utils/notifications';
+import { showSuccessNotification, showErrorNotification } from '../../utils/notifications';
 import { useTranslate } from '../../redux/componentHooks';
 import ConfirmActionModalComponent from '../ConfirmActionModalComponent';
 import ListDisplayComponent from '../ListDisplayComponent';
@@ -63,7 +63,7 @@ export default function EditGroupModalComponent(props: EditGroupModalComponentPr
 	const locale = useAppSelector(selectSelectedLanguage);
 	const translate = useTranslate();
 
-	// boolean that updates if any change is made to any meter modal
+	// boolean that updates if any change is made to any group modal
 	const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 	const [showUnsavedWarning, setShowUnsavedWarning] = useState(false);
 	// If there are no changes, then save is disabled
@@ -76,7 +76,8 @@ export default function EditGroupModalComponent(props: EditGroupModalComponentPr
 			setShowUnsavedWarning(true);
 		}
 		else {
-			handleClose(); // Proceed to close the modal
+			// Proceed to close the modal
+			handleClose();
 		}
 	};
 
@@ -201,7 +202,13 @@ export default function EditGroupModalComponent(props: EditGroupModalComponentPr
 		// Do not call the handler function because we do not want to open the parent modal
 		setShowDeleteConfirmationModal(false);
 		// Delete the group using the state object where only really need id.
-		deleteGroup(groupState.id);
+		deleteGroup(groupState.id)
+			.unwrap()
+			.then(() => {
+				showSuccessNotification(translate('group.delete.success') + ' ' + groupState.name);
+			}).catch(error => {
+				showErrorNotification(translate('group.delete.failure') + error.data.message);
+			});
 	};
 	/* End Confirm Delete Modal */
 
@@ -353,11 +360,24 @@ export default function EditGroupModalComponent(props: EditGroupModalComponentPr
 					const submitState = {
 						id: thisGroupState.id, name: thisGroupState.name, childMeters: thisGroupState.childMeters,
 						childGroups: thisGroupState.childGroups, gps: gps, displayable: thisGroupState.displayable,
-						note: thisGroupState.note, area: thisGroupState.area, defaultGraphicUnit: thisGroupState.defaultGraphicUnit, areaUnit: thisGroupState.areaUnit
+						note: thisGroupState.note, area: thisGroupState.area,
+						areaUnit: thisGroupState.areaUnit,
+						defaultGraphicUnit: thisGroupState.defaultGraphicUnit
 					};
+
 					// This saves group to the DB and then refreshes the window if the last group being updated and
 					// changes were made to the children. This avoid a reload on name change, etc.
-					submitGroupEdits(submitState);
+					submitGroupEdits(submitState)
+						.unwrap()
+						.then(() => {
+							showSuccessNotification(
+								translate('group.successfully.edited.group') + ' (' + translate('name') + ' "' + submitState.name + '")'
+							);
+						})
+						.catch(err => {
+							showErrorNotification(
+								translate('group.failed.to.edit.group') + '(' + translate('name') + ' "' + thisGroupState.name + '") ' + err.data);
+						});
 				});
 			} else {
 				showErrorNotification(translate('group.input.error'));
